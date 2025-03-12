@@ -95,9 +95,8 @@ export const getMovieDetails = async (
       id: response.data.id,
       title: response.data.title,
       overview: response.data.overview,
-      posterPath: response.data.poster_path
-        ? `https://image.tmdb.org/t/p/w500${response.data.poster_path}`
-        : null,
+      posterPath: response.data
+        .poster_path`https://image.tmdb.org/t/p/w500${response.data.poster_path}`,
       rating: response.data.vote_average,
       genres: response.data.genres.map((genre: any) => genre.name),
       releaseDate: response.data.release_date,
