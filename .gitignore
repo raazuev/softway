@@ -7,18 +7,42 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Node.js
 node_modules
 dist
 dist-ssr
-*.local
+.vite
+.output
+/public/build
+coverage/
+.nyc_output
+.eslintcache
+.parcel-cache
+.turbo
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 .idea
+.history
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+.suo
+.sw?
+.sass-cache/
+
+# Environment variables
+.env
+*.env.*
+
+# System files
+Thumbs.db
+*.tmp
+desktop.ini
+.Trashes
+
+# Tests
+*.test.*
+coverage/
+
+# CI/CD
+.github/workflows/*
