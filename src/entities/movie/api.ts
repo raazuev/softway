@@ -3,16 +3,20 @@ import { Movie } from "./model";
 import { MovieDetails } from "./movieDetails";
 
 export const discoverMoviesByGenre = async (
-  genreId: number,
-  page: number = 1
+  page: number = 1,
+  genreId: number | null = null
 ): Promise<Movie[]> => {
   try {
-    const response = await tmdbApi.get("/discover/movie", {
-      params: {
-        with_genres: genreId,
-        page: page,
-      },
-    });
+    const params: any = {
+      page: page,
+      sort_by: "popularity.desc",
+    };
+
+    if (genreId) {
+      params.with_genres = genreId;
+    }
+
+    const response = await tmdbApi.get("/discover/movie", { params });
 
     return response.data.results.map((movie: any) => ({
       id: movie.id,
@@ -24,7 +28,7 @@ export const discoverMoviesByGenre = async (
       rating: movie.vote_average,
     }));
   } catch (err) {
-    console.error("Ошибка при загрузке фильмов по жанру", err);
+    console.error("Ошибка при загрузке фильмов", err);
     return [];
   }
 };
@@ -55,7 +59,16 @@ export const searchMovies = async (
       params.with_genres = genreId;
     }
 
+    console.log("Запрос к API:", params);
+
     const response = await tmdbApi.get("/search/movie", { params });
+
+    console.log("Ответ от API:", response.data);
+
+    if (!response.data.results || response.data.results.length === 0) {
+      console.log("Фильмы не найдены");
+      return [];
+    }
 
     return response.data.results.map((movie: any) => ({
       id: movie.id,

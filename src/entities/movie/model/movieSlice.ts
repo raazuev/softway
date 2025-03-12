@@ -15,7 +15,7 @@ interface MovieState {
 
 const initialState: MovieState = {
   movies: [],
-  query: "Тест",
+  query: "",
   page: 1,
   hasMore: true,
   loading: false,
@@ -34,12 +34,18 @@ export const fetchMovies = createAsyncThunk(
     page: number;
     genre: number | null;
   }) => {
-    if (genre) {
-      return await discoverMoviesByGenre(genre, page);
+    if (!query.trim() && !genre) {
+      return await discoverMoviesByGenre(page); 
     }
-    return await searchMovies(query, page, genre);
+
+    if (genre) {
+      return await discoverMoviesByGenre(page, genre);
+    }
+
+    return await searchMovies(query, page);
   }
 );
+
 
 export const fetchMovieDetails = createAsyncThunk(
   "movies/fetchMovieDetails",
@@ -57,6 +63,14 @@ export const movieSlice = createSlice({
       state.page = 1;
       state.movies = [];
       state.hasMore = true;
+      state.loading = false;
+    },
+    resetQuery: (state) => {
+      state.query = "";
+      state.page = 1;
+      state.movies = [];
+      state.hasMore = true;
+      state.loading = false;
     },
     nextPage: (state) => {
       state.page += 1;
@@ -69,6 +83,7 @@ export const movieSlice = createSlice({
       state.page = 1;
       state.movies = [];
       state.hasMore = true;
+      state.loading = false;
     },
   },
   extraReducers: (builder) => {
@@ -77,7 +92,7 @@ export const movieSlice = createSlice({
         state.loading = true;
       })
       .addCase(fetchMovies.fulfilled, (state, action) => {
-        if (action.payload.length < 5) {
+        if (action.payload.length === 0 || action.payload.length < 20) {
           state.hasMore = false;
         }
 
@@ -96,6 +111,6 @@ export const movieSlice = createSlice({
   },
 });
 
-export const { setQuery, nextPage, setHasMore, setGenreFilter } =
+export const { setQuery, nextPage, setHasMore, setGenreFilter, resetQuery } =
   movieSlice.actions;
 export default movieSlice.reducer;

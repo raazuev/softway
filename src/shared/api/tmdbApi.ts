@@ -1,17 +1,16 @@
 import axios from "axios";
-import { API_BASE_URL, API_KEY } from "../constants/api";
+import { API_BASE_URL, TMDB_ACCESS_TOKEN } from "../constants/api";
 
 export const tmdbApi = axios.create({
   baseURL: API_BASE_URL,
-  params: {
-    api_key: API_KEY,
+  headers: {
+    accept: "application/json",
+    Authorization: `Bearer ${TMDB_ACCESS_TOKEN}`,
   },
 });
 
 tmdbApi.interceptors.response.use(
-  (response) => {
-    return response;
-  },
+  (response) => response,
   (error) => {
     if (error.response) {
       console.error(
