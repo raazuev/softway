@@ -16,8 +16,17 @@
     }
   }
 
-  &.error {
+  &.reset {
     background-color: #1ca349c9;
+    color: #ffeded;
+
+    &:hover {
+      background-color: #1ca349;
+    }
+  }
+
+  &.error {
+    background-color: #a31c1cc9;
     color: #ffeded;
 
     &:hover {

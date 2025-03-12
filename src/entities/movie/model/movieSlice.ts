@@ -35,7 +35,7 @@ export const fetchMovies = createAsyncThunk(
     genre: number | null;
   }) => {
     if (!query.trim() && !genre) {
-      return await discoverMoviesByGenre(page); 
+      return await discoverMoviesByGenre(page);
     }
 
     if (genre) {
@@ -45,7 +45,6 @@ export const fetchMovies = createAsyncThunk(
     return await searchMovies(query, page);
   }
 );
-
 
 export const fetchMovieDetails = createAsyncThunk(
   "movies/fetchMovieDetails",

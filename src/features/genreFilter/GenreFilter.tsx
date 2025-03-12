@@ -4,6 +4,8 @@ import { useAppSelector } from "@/shared/hooks/useAppSelector";
 import { setGenreFilter } from "@/entities/movie/model/movieSlice";
 import { getGenres } from "@/entities/movie/api";
 
+import styles from "./GenreFilter.module.scss";
+
 export const GenreFilter = () => {
   const dispatch = useAppDispatch();
   const selectedGenre = useAppSelector((state) => state.movies.genreFilter);
@@ -23,8 +25,12 @@ export const GenreFilter = () => {
   };
 
   return (
-    <div>
-      <select onChange={handleGenreChange} value={selectedGenre || ""}>
+    <div className={styles.genre}>
+      <select
+        className={styles.genre__select}
+        onChange={handleGenreChange}
+        value={selectedGenre || ""}
+      >
         <option value="">Все жанры</option>
         {genres.map((genre) => (
           <option key={genre.id} value={genre.id}>

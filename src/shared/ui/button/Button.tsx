@@ -8,7 +8,7 @@ interface ButtonProps {
   onClick?: () => void;
   type?: "button" | "submit" | "reset";
   className?: string;
-  color?: "primary" | "error";
+  color?: "primary" | "reset" | "error";
   disabled?: boolean;
 }
 
@@ -25,6 +25,7 @@ export const Button = ({
       onClick={onClick}
       className={classNames(styles.button, className, {
         [styles.primary]: color === "primary",
+        [styles.reset]: color === "reset",
         [styles.error]: color === "error",
       })}
       type={type}

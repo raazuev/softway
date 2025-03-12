@@ -51,9 +51,9 @@ export const MovieList = () => {
         hasMore={hasMore}
         loader={<Spinner />}
       >
-        <ul>
+        <ul className={styles.inner}>
           {movies.map((movie) => (
-            <li key={movie.id}>
+            <li className={styles.moviesItem} key={movie.id}>
               <Link to={`/movies/${movie.id}`}>
                 <img src={movie.posterPath} alt={movie.title} />
                 <h3>{movie.title}</h3>
