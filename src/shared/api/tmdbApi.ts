@@ -9,9 +9,20 @@ export const tmdbApi = axios.create({
 });
 
 tmdbApi.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    return response;
+  },
   (error) => {
-    console.error("Ошибка API:", error.response?.data || error.message);
+    if (error.response) {
+      console.error(
+        `Ошибка API (статус: ${error.response.status}):`,
+        error.response.data
+      );
+    } else if (error.request) {
+      console.error("Ошибка сети или нет ответа:", error.request);
+    } else {
+      console.error("Ошибка при настройке запроса:", error.message);
+    }
     return Promise.reject(error);
   }
 );

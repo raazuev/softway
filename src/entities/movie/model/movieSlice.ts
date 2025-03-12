@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { searchMovies, getMovieDetails } from "../api";
+import { searchMovies, discoverMoviesByGenre, getMovieDetails } from "../api";
 import { Movie } from "../model";
 import { MovieDetails } from "../movieDetails";
 
@@ -10,6 +10,7 @@ interface MovieState {
   hasMore: boolean;
   loading: boolean;
   selectedMovie: MovieDetails | null;
+  genreFilter: number | null;
 }
 
 const initialState: MovieState = {
@@ -19,13 +20,24 @@ const initialState: MovieState = {
   hasMore: true,
   loading: false,
   selectedMovie: null,
+  genreFilter: null,
 };
 
 export const fetchMovies = createAsyncThunk(
   "movies/fetchMovies",
-  async ({ query, page }: { query: string; page: number }) => {
-    const results = await searchMovies(query, page);
-    return { results, page };
+  async ({
+    query,
+    page,
+    genre,
+  }: {
+    query: string;
+    page: number;
+    genre: number | null;
+  }) => {
+    if (genre) {
+      return await discoverMoviesByGenre(genre, page);
+    }
+    return await searchMovies(query, page, genre);
   }
 );
 
@@ -52,6 +64,12 @@ export const movieSlice = createSlice({
     setHasMore: (state, action) => {
       state.hasMore = action.payload;
     },
+    setGenreFilter: (state, action) => {
+      state.genreFilter = action.payload;
+      state.page = 1;
+      state.movies = [];
+      state.hasMore = true;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -59,11 +77,11 @@ export const movieSlice = createSlice({
         state.loading = true;
       })
       .addCase(fetchMovies.fulfilled, (state, action) => {
-        if (action.payload.results.length < 5) {
+        if (action.payload.length < 5) {
           state.hasMore = false;
         }
 
-        state.movies = [...state.movies, ...action.payload.results];
+        state.movies = [...state.movies, ...action.payload];
         state.loading = false;
       })
       .addCase(fetchMovies.rejected, (state) => {
@@ -78,5 +96,6 @@ export const movieSlice = createSlice({
   },
 });
 
-export const { setQuery, nextPage, setHasMore } = movieSlice.actions;
+export const { setQuery, nextPage, setHasMore, setGenreFilter } =
+  movieSlice.actions;
 export default movieSlice.reducer;

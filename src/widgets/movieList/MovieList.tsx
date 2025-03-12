@@ -5,6 +5,7 @@ import { fetchMovies, nextPage } from "@/entities/movie/model/movieSlice";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Link } from "react-router-dom";
 
+import { GenreFilter } from "@/features/genreFilter/GenreFilter";
 import { SearchMovies } from "@/features/searchMovies/SearchMovies";
 import { Spinner } from "@/shared/ui/spinner/Spinner";
 import styles from "./MovieList.module.scss";
@@ -17,16 +18,18 @@ export const MovieList = () => {
   const query = useAppSelector((state) => state.movies.query);
   const page = useAppSelector((state) => state.movies.page);
   const hasMore = useAppSelector((state) => state.movies.hasMore);
+  const genre = useAppSelector((state) => state.movies.genreFilter);
 
   useEffect(() => {
     if (query) {
-      dispatch(fetchMovies({ query, page }));
+      dispatch(fetchMovies({ query, page, genre }));
     }
-  }, [dispatch, query, page]);
+  }, [dispatch, query, page, genre]);
 
   return (
     <div className={styles.movieList}>
       <SearchMovies />
+      <GenreFilter />
       {loading && <Spinner />}
       {!loading && movies.length === 0 && <p>Ничего не найдено</p>}
 
