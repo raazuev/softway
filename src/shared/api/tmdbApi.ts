@@ -7,3 +7,11 @@ export const tmdbApi = axios.create({
     api_key: API_KEY,
   },
 });
+
+tmdbApi.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.error("Ошибка API:", error.response?.data || error.message);
+    return Promise.reject(error);
+  }
+);

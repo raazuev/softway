@@ -15,6 +15,15 @@ body {
   scroll-behavior: smooth;
 }
 
+.container {
+  max-width: 1400px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 20px;
+}
+
 ul,
 ol {
   list-style: none;
