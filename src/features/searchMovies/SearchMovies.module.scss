@@ -1,0 +1,5 @@
+@use "/src/shared/assets/styles/mixin" as mix;
+
+.input {
+  @include mix.Input;
+}
