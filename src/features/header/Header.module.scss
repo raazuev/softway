@@ -1,0 +1,12 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+
+  &__title {
+    font-family: "Ysabeau-Bold";
+    font-size: 1.4rem;
+    text-transform: uppercase;
+  }
+}

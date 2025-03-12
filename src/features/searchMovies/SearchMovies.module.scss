@@ -1,5 +1,19 @@
 @use "/src/shared/assets/styles/mixin" as mix;
 
-.input {
-  @include mix.Input;
+.search {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  &__input {
+    @include mix.Input;
+  }
+
+  &__btn {
+    padding: 19px 0;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+  }
 }

@@ -3,8 +3,8 @@ import { MovieList } from "@/widgets/movieList/MovieList";
 
 export const HomePage = () => {
   return (
-    <div className={styles.homePage}>
+    <main className={styles.homePage}>
       <MovieList />
-    </div>
+    </main>
   );
 };

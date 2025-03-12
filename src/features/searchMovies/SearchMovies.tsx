@@ -47,9 +47,9 @@ export const SearchMovies = ({ onResetSearch }: SearchMoviesProps) => {
   }, [globalQuery]);
 
   return (
-    <div>
+    <div className={styles.search}>
       <input
-        className={styles.input}
+        className={styles.search__input}
         type="text"
         placeholder="Введите название фильма"
         value={localQuery}
@@ -57,12 +57,14 @@ export const SearchMovies = ({ onResetSearch }: SearchMoviesProps) => {
         onKeyDown={handleKeyDown}
         disabled={loading}
       />
-      <div>
+      <section className={styles.search__btn}>
         <Button onClick={handleSearch} disabled={loading || !localQuery.trim()}>
           {loading ? "Поиск..." : "Найти"}
         </Button>
-      </div>
-      <Button onClick={handleReset}>Сбросить</Button>
+        <Button color="reset" onClick={handleReset}>
+          Сбросить
+        </Button>
+      </section>
     </div>
   );
 };

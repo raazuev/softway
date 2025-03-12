@@ -7,6 +7,7 @@ import { ROUTES } from "@/shared/constants/routes";
 
 import { Spinner } from "@/shared/ui/spinner/Spinner";
 import { Button } from "@/shared/ui/button/Button";
+import styles from "./MovieDetails.module.scss";
 
 export const MovieDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -30,21 +31,23 @@ export const MovieDetails = () => {
   }
 
   return (
-    <div>
-      <img src={movie.posterPath} alt={movie.title} />
+    <div className={styles.details}>
       <section>
+        <img src={movie.posterPath} alt={movie.title} />
+      </section>
+      <section className={styles.descr}>
         <h2>{movie.title}</h2>
-        <p>{movie.overview}</p>
+        <h3>{movie.overview}</h3>
         <p>
-          <strong>Жанры:</strong>
+          <span>Жанры:</span>
           {movie.genres.join(", ")}
         </p>
         <p>
-          <strong>Даты выхода:</strong>
+          <span>Даты выхода:</span>
           {movie.releaseDate}
         </p>
+        <Button onClick={handleMainPage}>Назад</Button>
       </section>
-      <Button onClick={handleMainPage}>Назад</Button>
     </div>
   );
 };

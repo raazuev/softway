@@ -2,8 +2,8 @@ import styles from "./Header.module.scss";
 
 export const Header = () => {
   return (
-    <div>
-      <h1>Header</h1>
-    </div>
+    <header className={styles.header}>
+      <h1 className={styles.header__title}>Найди фильм на любой вкус</h1>
+    </header>
   );
 };
