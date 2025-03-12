@@ -1,7 +1,11 @@
 import { useEffect } from "react";
 import { useAppDispatch } from "@/shared/hooks/useAppDispatch";
 import { useAppSelector } from "@/shared/hooks/useAppSelector";
-import { fetchMovies, nextPage } from "@/entities/movie/model/movieSlice";
+import {
+  fetchMovies,
+  nextPage,
+  resetQuery,
+} from "@/entities/movie/model/movieSlice";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Link } from "react-router-dom";
 
@@ -20,22 +24,30 @@ export const MovieList = () => {
   const hasMore = useAppSelector((state) => state.movies.hasMore);
   const genre = useAppSelector((state) => state.movies.genreFilter);
 
-  useEffect(() => {
-    if (query) {
-      dispatch(fetchMovies({ query, page, genre }));
+  const handleResetSearch = () => {
+    dispatch(resetQuery());
+  };
+
+  const handleNextPage = () => {
+    if (hasMore && !loading) {
+      dispatch(nextPage());
     }
+  };
+
+  useEffect(() => {
+    dispatch(fetchMovies({ query, page, genre }));
   }, [dispatch, query, page, genre]);
 
   return (
     <div className={styles.movieList}>
-      <SearchMovies />
+      <SearchMovies onResetSearch={handleResetSearch} />
       <GenreFilter />
       {loading && <Spinner />}
       {!loading && movies.length === 0 && <p>Ничего не найдено</p>}
 
       <InfiniteScroll
         dataLength={movies.length}
-        next={() => dispatch(nextPage())}
+        next={handleNextPage}
         hasMore={hasMore}
         loader={<Spinner />}
       >
